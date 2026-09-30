@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Descubre qué necesita tu piel</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f1e8;--bg2:#efe6d8;--card:#fffaf3;--ink:#2f2a25;--mute:#6f665c;--acc:#5f7a63;--acc2:#e6cfc2;--line:#e0d5c5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f1c19;--bg2:#282420;--card:#2b2723;--ink:#f1e9de;--mute:#b3a898;--acc:#9bb89f;--acc2:#4a3d36;--line:#3d3630}}
+:root[data-theme="dark"]{--bg:#1f1c19;--bg2:#282420;--card:#2b2723;--ink:#f1e9de;--mute:#b3a898;--acc:#9bb89f;--acc2:#4a3d36;--line:#3d3630}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:400;line-height:1.15;margin:0}
+h1{font-size:clamp(2.6rem,7vw,4.6rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:.6em}
+h3{font-size:1.3rem}
+p{margin:0 0 1em}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+nav{padding:20px 0;font-family:Fraunces,Georgia,serif;font-size:1.25rem}
+.btn{display:inline-block;border:0;border-radius:999px;background:var(--acc);color:#fff;font:600 1rem Figtree,sans-serif;padding:15px 30px;cursor:pointer}
+:root[data-theme="dark"] .btn,:root:not([data-theme="light"]) .btn{color:#1f1c19}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:default}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding:40px 0 80px}
+.hero p.sub{font-size:1.15rem;color:var(--mute);max-width:34em;margin:22px 0 30px}
+.art{aspect-ratio:4/5;max-width:380px;justify-self:center;width:100%}
+section.blk{padding:60px 0}
+.alt{background:var(--bg2)}
+.steps,.ben{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px}
+.step .n{font-family:Fraunces,serif;font-size:2.4rem;color:var(--acc)}
+.card p{color:var(--mute);margin:8px 0 0}
+.cta{text-align:center;padding:70px 0 90px}
+.qbox{max-width:680px;margin:0 auto;padding:10px 22px 60px}
+.bar{height:8px;background:var(--bg2);border-radius:9px;overflow:hidden;margin:10px 0 34px}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .35s}
+.opts{display:grid;gap:10px;margin:26px 0}
+.opt{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px 20px;font:500 1rem Figtree,sans-serif;color:var(--ink);cursor:pointer}
+.opt.on{border-color:var(--acc);background:var(--acc2)}
+.nav{display:flex;justify-content:space-between;gap:10px}
+.hint{color:var(--mute);font-size:.95rem}
+.res h2{margin-top:1.4em}
+.prof{background:var(--acc2);border-radius:26px;padding:32px;margin:14px 0 8px}
+.prof h1{font-size:clamp(1.8rem,4.5vw,2.8rem)}
+.warn{border:1.5px solid var(--acc);border-radius:18px;padding:18px 22px;margin:20px 0;background:var(--card)}
+.list{display:grid;gap:12px}
+.list .card{padding:18px 22px}.list b{font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+.rt{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px}
+.rt h3{margin-bottom:14px}
+.rs{border-top:1px solid var(--line);padding:14px 0}
+.rs:first-of-type{border-top:0}
+.rs h4{margin:0 0 4px;font:600 1.05rem Figtree,sans-serif}
+.rs p{margin:0 0 4px;color:var(--mute);font-size:.95rem}
+.rs b{color:var(--ink);font-weight:600}
+.small{font-size:.85rem;color:var(--mute);margin-top:34px}
+@media(max-width:800px){.hero,.steps,.ben,.two{grid-template-columns:1fr}.hero{padding-top:10px}.art{max-width:260px;order:-1}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const Q=[
+{id:'age',t:'¿Qué edad tienes?',o:['Menos de 18','18–24','25–34','35–44','45–54','55 o más']},
+{id:'skin',t:'¿Cómo describirías tu piel?',o:['Seca','Normal','Mixta','Grasa','No estoy seguro/a']},
+{id:'con',t:'¿Cuál es tu principal preocupación?',k:'m',h:'Puedes elegir varias.',o:['Acné/granitos','Puntos negros','Sequedad','Sensibilidad','Rojeces','Manchas','Textura irregular','Brillos','Líneas de expresión','Ninguna en particular']},
+{id:'irr',t:'¿Tu piel se irrita fácilmente?',o:['Sí, con frecuencia','A veces','Casi nunca']},
+{id:'roj',t:'¿Sueles experimentar rojeces?',o:['Sí, casi siempre','A veces','No']},
+{id:'rea',t:'¿Algún producto te ha causado irritación anteriormente?',o:['Sí','No','No lo sé']},
+{id:'wash',t:'¿Cómo notas tu piel después de lavarte la cara?',o:['Tirante o seca','Cómoda','Con brillo enseguida']},
+{id:'tira',t:'¿Sientes tirantez durante el día?',o:['Casi siempre','A veces','Nunca']},
+{id:'acn',t:'¿Sueles tener granitos y con qué frecuencia?',o:['No suelo tener','Rara vez','Algunas veces al mes','Casi siempre tengo']},
+{id:'zon',t:'¿En qué zonas aparecen principalmente?',k:'m',opt:1,if:a=>a.acn&&a.acn!=='No suelo tener',o:['Frente','Nariz','Mejillas','Barbilla','Mandíbula','Otras zonas']},
+{id:'sue',t:'¿Cuántas horas duermes aproximadamente?',o:['Menos de 6','6–7','7–8','Más de 8']},
+{id:'agu',t:'¿Bebes suficiente agua?',o:['Sí','A veces','No']},
+{id:'spf',t:'¿Usas protector solar?',o:['Todos los días','A veces','Casi nunca']},
+{id:'eje',t:'¿Con qué frecuencia haces ejercicio?',o:['Casi nunca','1–2 veces por semana','3 o más veces por semana']},
+{id:'mak',t:'¿Utilizas maquillaje habitualmente?',o:['Sí, a diario','A veces','No']},
+{id:'rut',t:'¿Actualmente tienes una rutina de skincare?',o:['Sí','No, todavía no']},
+{id:'prod',t:'¿Qué productos utilizas?',k:'m',opt:1,if:a=>a.rut==='Sí',h:'Opcional. Marca todo lo que uses.',o:['Limpiador','Hidratante','Protector solar','Tratamiento (sérum, ácidos, retinoide)','Exfoliante']},
+{id:'pas',t:'¿Cuántos pasos tiene aproximadamente?',opt:1,if:a=>a.rut==='Sí',o:['1–2','3–4','5 o más']},
+{id:'tie',t:'¿Cuánto tiempo quieres dedicar a tu rutina?',o:['2–3 minutos','5 minutos','10 minutos','No me importa']},
+{id:'est',t:'¿Prefieres una rutina…?',o:['Minimalista','Intermedia','Completa']},
+{id:'pre',t:'¿Qué presupuesto aproximado quieres dedicar a los productos?',o:['Bajo','Medio','Alto']}
+];
+let A={},i=-1,done=false;
+const $=s=>document.getElementById(s);
+const vis=()=>Q.filter(q=>!q.if||q.if(A));
+const has=(k,v)=>Array.isArray(A[k])?A[k].includes(v):A[k]===v;
+const app=$('app');
+function start(){A=A;i=0;done=false;draw();scrollTo(0,0)}
+function home(){A={};i=-1;done=false;draw();scrollTo(0,0)}
+function art(){return `<svg class="art" viewBox="0 0 320 400" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6cfc2"/><stop offset="1" stop-color="#d9b9a6"/></linearGradient></defs><path d="M20 400V170a140 140 0 0 1 280 0v230z" fill="url(#g)"/><path d="M60 400V180a100 100 0 0 1 200 0v220z" fill="#f2e3d6" opacity=".7"/><rect x="120" y="180" width="80" height="150" rx="16" fill="#5f7a63"/><rect x="140" y="146" width="40" height="40" rx="8" fill="#3f5643"/><path d="M155 96q5-24 10 0a7 7 0 1 1-10 0z" fill="#5f7a63"/><rect x="132" y="228" width="56" height="58" rx="8" fill="#f7f1e8" opacity=".9"/><circle cx="72" cy="120" r="9" fill="#f7f1e8"/><circle cx="256" cy="230" r="14" fill="#f7f1e8" opacity=".8"/></svg>`}
+function draw(){
+ if(done)return res();
+ if(i<0)return land();
+ quiz();
+}
+function land(){
+app.innerHTML=`<div class="wrap"><nav>Lumia</nav>
+<div class="hero"><div><h1>Descubre qué necesita tu piel</h1><p class="sub">Responde unas preguntas y descubre un análisis personalizado de tu piel, los factores que pueden estar influyendo en ella y una rutina adaptada a tus necesidades.</p><button class="btn" onclick="start()">Empezar análisis</button></div>${art()}</div></div>
+<section class="blk alt"><div class="wrap"><h2>¿Cómo funciona?</h2><div class="steps">
+<div class="card step"><div class="n">1</div><h3>Responde</h3><p>Completa nuestro cuestionario sobre tu piel y tus hábitos.</p></div>
+<div class="card step"><div class="n">2</div><h3>Analizamos</h3><p>Analizamos tus respuestas para identificar las principales necesidades de tu piel.</p></div>
+<div class="card step"><div class="n">3</div><h3>Descubre tu rutina</h3><p>Recibe una rutina personalizada con recomendaciones para mañana y noche.</p></div></div></div></section>
+<section class="blk"><div class="wrap"><h2>Qué recibirás</h2><div class="ben">
+${[['Análisis personalizado','Un perfil de tu piel según tus respuestas.'],['Rutina de mañana','Pasos ordenados, del limpiador al protector solar.'],['Rutina de noche','Limpieza, tratamiento e hidratación.'],['Recomendaciones de ingredientes','Qué buscar en la etiqueta para tu caso.'],['Hábitos que pueden beneficiar a la piel','Sueño, agua, sol y más.'],['Consejos para mejorar tu cuidado diario','Ideas sencillas para ser constante.']].map(b=>`<div class="card"><h3>${b[0]}</h3><p>${b[1]}</p></div>`).join('')}</div></div></section>
+<div class="cta"><div class="wrap"><h2>¿Lista/o para conocer tu piel?</h2><button class="btn" onclick="start()">Analizar mi piel</button></div></div>`}
+function quiz(){
+ const v=vis(),q=v[i],n=v.length,cur=A[q.id],ok=q.opt||(q.k==='m'?(cur&&cur.length):cur);
+ app.innerHTML=`<div class="qbox"><nav style="padding:20px 0"><a href="#" onclick="home();return false" style="color:inherit;text-decoration:none">Lumia</a></nav>
+ <div class="hint">Pregunta ${i+1} de ${n}</div><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${i+1}"><i style="width:${(i+1)/n*100}%"></i></div>
+ <h2>${q.t}</h2>${q.h?`<p class="hint">${q.h}</p>`:q.opt?'<p class="hint">Opcional.</p>':''}
+ <div class="opts">${q.o.map((o,k)=>`<button class="opt ${has(q.id,o)?'on':''}" aria-pressed="${has(q.id,o)}" onclick="pick(${k})">${o}</button>`).join('')}</div>
+ <div class="nav"><button class="btn ghost" onclick="back()">Atrás</button><button class="btn" ${ok?'':'disabled'} onclick="next()">${i===n-1?'Ver mi análisis':'Siguiente'}</button></div></div>`}
+function pick(k){const q=vis()[i],o=q.o[k];
+ if(q.k==='m'){let c=A[q.id]||[];const none=o==='Ninguna en particular';
+  c=c.includes(o)?c.filter(x=>x!==o):(none?[o]:[...c.filter(x=>x!=='Ninguna en particular'),o]);A[q.id]=c}
+ else A[q.id]=(A[q.id]===o&&q.opt)?undefined:o;
+ quiz()}
+function back(){if(i===0){home()}else{i--;quiz()}scrollTo(0,0)}
+function next(){if(i>=vis().length-1){done=true;res()}else{i++;quiz()}scrollTo(0,0)}
+function res(){
+ const con=A.con||[],c=x=>con.includes(x);
+ let skin=A.skin;
+ if(!skin||skin.startsWith('No estoy'))skin=A.wash==='Tirante o seca'?'Seca':A.wash==='Con brillo enseguida'?'Grasa':'Normal';
+ const dry=skin==='Seca'||c('Sequedad')||A.wash==='Tirante o seca'||A.tira==='Casi siempre';
+ const oily=skin==='Grasa'||skin==='Mixta'||c('Brillos')||A.wash==='Con brillo enseguida';
+ const sens=c('Sensibilidad')||c('Rojeces')||A.irr==='Sí, con frecuencia'||A.roj==='Sí, casi siempre'||A.rea==='Sí';
+ const acne=c('Acné/granitos')||c('Puntos negros')||['Algunas veces al mes','Casi siempre tengo'].includes(A.acn);
+ const spots=c('Manchas'),tex=c('Textura irregular'),age=c('Líneas de expresión')||['35–44','45–54','55 o más'].includes(A.age);
+ const noSpf=A.spf!=='Todos los días',shortSl=A.sue==='Menos de 6',noWater=A.agu==='No',mk=A.mak==='Sí, a diario';
+ const many=A.pas==='5 o más',none=A.rut==='No, todavía no',minim=A.est==='Minimalista'||A.tie==='2–3 minutos',full=A.est==='Completa'&&A.tie!=='2–3 minutos';
+ const warn=(A.irr==='Sí, con frecuencia'&&A.roj==='Sí, casi siempre')||A.acn==='Casi siempre tengo'&&A.rea==='Sí'||(A.rea==='Sí'&&A.roj==='Sí, casi siempre');
+ const mainMap={'Acné/granitos':'imperfecciones','Puntos negros':'poros y puntos negros','Sequedad':'sequedad','Sensibilidad':'sensibilidad','Rojeces':'rojeces','Manchas':'manchas','Textura irregular':'textura irregular','Brillos':'exceso de brillo','Líneas de expresión':'líneas de expresión'};
+ const main=con.find(x=>mainMap[x]);
+ let trend=[];if(dry&&skin!=='Seca')trend.push('tendencia a deshidratación');if(sens)trend.push('tendencia a la sensibilidad');
+ const prof=`Piel ${skin.toLowerCase()}${trend.length?' con '+trend.join(' y '):''}${main?` y preocupación principal por ${mainMap[main]}`:', sin una preocupación concreta por ahora'}.`;
+ const needs=[];
+ if(dry||A.tira!=='Nunca'&&A.tira)needs.push(['Mantener una hidratación adecuada',`Indicas que tu piel se nota ${A.wash==='Tirante o seca'?'tirante tras lavarla':'con tirantez a ratos'}${c('Sequedad')?' y marcas la sequedad como preocupación':''}.`]);
+ if(oily)needs.push(['Controlar el exceso de grasa sin resecar',`Describes tu piel como ${skin.toLowerCase()} o notas brillos, así que conviene equilibrar sin agredir.`]);
+ if(sens)needs.push(['Proteger la barrera cutánea','Has señalado irritación, rojeces o reacciones a productos, por lo que conviene priorizar fórmulas calmantes y sencillas.']);
+ if(acne)needs.push(['Cuidar la apariencia de granitos y poros',`Mencionas ${A.acn&&A.acn!=='No suelo tener'?'granitos con cierta frecuencia':'imperfecciones o puntos negros'}; se recomienda constancia y activos suaves.`]);
+ if(spots||age||tex)needs.push([spots?'Unificar la apariencia del tono':tex?'Mejorar la apariencia de la textura':'Apoyar la firmeza y suavidad visible','Es una de tus preocupaciones (o encaja con tu rango de edad); los resultados llegan con constancia y protección solar.']);
+ if(noSpf)needs.push(['Protegerla del sol a diario',`Usas protector solar ${A.spf==='A veces'?'solo a veces':'casi nunca'}; es el paso que más ayuda a largo plazo.`]);
+ if(!needs.length)needs.push(['Mantener lo que ya funciona','No destacas problemas concretos: una rutina sencilla y constante es suficiente.']);
+ const N=needs.slice(0,5);
+ const fac=[];
+ if(noSpf)fac.push('Poca protección solar: puede influir en manchas, tono apagado y sensibilidad.');
+ if(shortSl)fac.push('Dormir menos de 6 horas suele asociarse a una piel de aspecto más cansado.');
+ if(noWater)fac.push('Beber poca agua puede contribuir a que la piel se vea menos jugosa (no sustituye a la hidratación tópica).');
+ if(many||(A.prod||[]).includes('Exfoliante')&&sens)fac.push(many?'Una rutina con muchos pasos puede resultar irritante para algunas pieles; a veces menos es más.':'Exfoliar con una piel sensible puede acentuar la irritación.');
+ if(A.wash==='Tirante o seca')fac.push('La sensación de tirantez tras lavarte sugiere que tu limpiador podría ser demasiado decapante.');
+ if(mk)fac.push('El maquillaje diario hace importante una buena limpieza nocturna.');
+ if(none)fac.push('Sin una rutina establecida, la constancia será el mayor cambio que notes.');
+ if(A.eje==='Casi nunca')fac.push('Algo de actividad física regular suele favorecer un aspecto más luminoso.');
+ if(!fac.length)fac.push('Tus hábitos parecen equilibrados; mantén la constancia y la protección solar.');
+ const b=A.pre==='Bajo'?'Con un presupuesto ajustado, las marcas de farmacia y básicas de cosmética funcionan muy bien.':A.pre==='Alto'?'Con presupuesto alto puedes elegir fórmulas más sofisticadas, aunque no siempre son necesarias.':'Un presupuesto medio te da buenas opciones sin complicarte.';
+ const concl=`Por tus respuestas, parece que tu prioridad debería ser ${minim?'mantener una rutina sencilla y constante':'seguir una rutina ordenada y constante'} centrada en ${sens?'una limpieza muy suave, calmar la piel':'la limpieza suave'}, ${dry?'reforzar la hidratación':'una hidratación ligera'} y protección solar diaria. ${main&&main!=='Ninguna en particular'?`También puede ser interesante introducir progresivamente algún producto para ${mainMap[main]}, de uno en uno y probando tolerancia. `:''}${none?'Empieza con tres pasos básicos antes de añadir más. ':''}${b}`;
+ // routine
+ const cleanser=dry||sens?['Limpiador suave','Elimina impurezas sin dejar tirantez.','Leche, bálsamo o gel-crema sin sulfatos agresivos ni fragancia.','Glicerina, ceramidas, pantenol.']:['Limpiador suave','Elimina exceso de grasa y suciedad sin resecar.','Gel o espuma suave, pH cercano al de la piel.','Glicerina, aminoácidos, zinc PCA.'];
+ const use1='Masajea 30–60 segundos con agua tibia y aclara.';
+ let tAM,tPM;
+ if(sens){tAM=['Sérum calmante','Ayuda a confortar la piel.','Sérum ligero, sin alcohol ni perfume.','Centella asiática, pantenol, alantoína.','Después de limpiar, unas gotas.','Diaria'];tPM=tAM;}
+ else if(acne){tAM=['Sérum de niacinamida','Ayuda a equilibrar grasa y apariencia de poros.','Sérum ligero al 4–10%.','Niacinamida, zinc.','Unas gotas sobre piel limpia.','A diario'];tPM=['Tratamiento para imperfecciones','Ayuda a mantener los poros limpios.','Ácido salicílico suave o azelaico, según tolerancia.','Ácido salicílico (BHA), ácido azelaico.','Capa fina en zonas con imperfecciones; empieza poco a poco.','2–3 noches por semana al inicio'];}
+ else if(spots||age||tex){tAM=['Sérum antioxidante','Apoya el tono y la luminosidad.','Sérum de vitamina C estable.','Vitamina C, vitamina E, ácido ferúlico.','Antes de la hidratante.','A diario'];tPM=['Tratamiento renovador','Apoya la textura y el aspecto de líneas y manchas.','Retinoide suave (introdúcelo gradualmente).','Retinol o retinal suave, bakuchiol.','Cantidad de un guisante para todo el rostro, evitando ojos.','1–2 noches por semana al inicio'];}
+ else if(dry){tAM=['Sérum hidratante','Aporta agua a la piel.','Sérum acuoso, sin fragancia.','Ácido hialurónico, glicerina, pantenol.','Sobre la piel ligeramente húmeda.','A diario'];tPM=tAM;}
+ else{tAM=['Antioxidante ligero','Complemento opcional para el día.','Sérum ligero de vitamina C o niacinamida.','Vitamina C, niacinamida.','Antes de hidratar.','Opcional'];tPM=['Tratamiento de mantenimiento','Opcional para mejorar el aspecto general.','Sérum hidratante o renovador suave.','Ácido hialurónico, péptidos.','Antes de la crema.','Opcional'];}
+ const moist=dry?['Crema hidratante','Refuerza la barrera y retiene agua.','Crema de textura rica y sin fragancia.','Ceramidas, escualano, manteca de karité.','Aplica sobre la piel algo húmeda.']:oily?['Hidratante ligera','Hidrata sin sensación pesada.','Gel o gel-crema oil-free.','Ácido hialurónico, glicerina, niacinamida.','Capa fina por todo el rostro.']:['Crema hidratante','Mantiene el equilibrio de la piel.','Textura media, sin fragancia.','Glicerina, ceramidas.','Capa fina por todo el rostro.'];
+ const spfS=['Protector solar','Protege de rayos UV, clave para manchas y envejecimiento.',oily?'SPF 50 fluido o en gel, toque seco.':'SPF 30–50 con textura agradable.','Filtros modernos; opción mineral si tu piel es sensible.','Dos dedos de producto para rostro y cuello; reaplica si estás al sol.','Cada mañana, todo el año'];
+ const AM=[[...cleanser,use1,'Mañana: opcional, puedes solo aclarar con agua si tu piel está seca.'],!minim||sens||acne||spots?[...tAM]:null,[...moist,'Cada mañana'],spfS].filter(Boolean);
+ const dbl=mk||!noSpf;
+ const PM=[[...(dbl?['Doble limpieza','Retira maquillaje y protector solar.','Bálsamo o aceite limpiador + limpiador suave.','Aceites suaves, glicerina.','Bálsamo en seco, emulsiona con agua, luego limpiador.','Cada noche']:[...cleanser,use1,'Cada noche'])],(!minim||acne||spots||age)?[...tPM]:null,[...moist,'Cada noche'],dry&&full?['Bálsamo oclusivo (opcional)','Sella la hidratación en zonas secas.','Bálsamo sin fragancia.','Escualano, petrolato.','Capa fina en zonas secas.','Según necesidad']:null].filter(Boolean);
+ const step=(s,k)=>`<div class="rs"><h4>${k+1}. ${s[0]}</h4><p>${s[1]}</p><p><b>Qué buscar:</b> ${s[2]}</p><p><b>Ingredientes:</b> ${s[3]}</p><p><b>Cómo usarlo:</b> ${s[4]}</p><p><b>Frecuencia:</b> ${s[5]||'Cada mañana'}</p></div>`;
+ const fixed=s=>s.length===5?[...s,'A diario']:s;
+ app.innerHTML=`<div class="wrap res"><nav>Lumia</nav>
+ <div class="prof"><p class="hint" style="margin:0 0 8px">Tu perfil de piel</p><h1>${prof}</h1></div>
+ ${warn?'<div class="warn"><b>Consulta a un profesional.</b> Tus respuestas indican irritación o reacciones persistentes. Esta guía es orientativa; te recomendamos consultar con un dermatólogo o profesional sanitario antes de probar productos nuevos.</div>':''}
+ <h2>Lo que parece necesitar tu piel</h2><div class="list">${N.map(n=>`<div class="card"><b>${n[0]}</b><p>${n[1]}</p></div>`).join('')}</div>
+ <h2>Factores que podrían estar influyendo</h2><div class="list">${fac.map(f=>`<div class="card">${f}</div>`).join('')}</div>
+ <h2>Tu conclusión</h2><div class="prof"><p style="margin:0;font-size:1.1rem">${concl}</p></div>
+ <h2>Tu rutina personalizada</h2><div class="two"><div class="rt"><h3>☀️ Rutina de mañana</h3>${AM.map((s,k)=>step(fixed(s),k)).join('')}</div><div class="rt"><h3>🌙 Rutina de noche</h3>${PM.map((s,k)=>step(fixed(s),k)).join('')}</div></div>
+ <p class="small">Este análisis es una orientación cosmética general y no constituye un diagnóstico médico. Introduce un producto nuevo cada vez y haz una prueba en una zona pequeña. Si notas irritación persistente, consulta con un dermatólogo.</p>
+ <div style="display:flex;gap:10px;flex-wrap:wrap;padding-bottom:70px"><button class="btn ghost" onclick="done=false;i=vis().length-1;quiz()">Revisar respuestas</button><button class="btn" onclick="A={};start()">Repetir análisis</button></div></div>`;
+ scrollTo(0,0)}
+draw();
+</script>
+</body>
+</html>
